@@ -153,12 +153,20 @@ export type RuleSerializable = Pick<
   "conditions" | "event" | "name" | "priority"
 >;
 
+export type RuleResultSerializable = Pick<
+  Required<RuleResult>,
+  "name" | "conditions" | "event" | "priority" | "result">
+
 export interface RuleResult {
   name: string;
   conditions: TopLevelCondition;
   event?: Event;
   priority?: number;
   result: any;
+  toJSON(): string;
+  toJSON<T extends boolean>(
+    stringify: T
+  ): T extends true ? string : RuleResultSerializable;
 }
 
 export class Rule implements RuleProperties {
